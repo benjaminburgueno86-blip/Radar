@@ -1,0 +1,38 @@
+.trade .trade-header{position:static;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem max(1rem,calc((100vw - 1160px)/2))}
+.trade .trade-header .quiet{font-size:.85rem}
+#tradeImportIssues{display:grid;gap:.6rem;}
+#tradeImportIssues .check{margin:.55rem 0 0;}
+.trade .trade-main{max-width:1160px;padding:1.2rem 1rem 3rem;margin:auto}
+.trade-title h1{font-size:clamp(1.9rem,4vw,3rem);margin:.4rem 0}
+.trade-title p{max-width:64ch}
+.trade-message:empty{display:none}
+.trade-message{padding:.75rem 1rem;background:#e8f2ec;border-radius:.5rem}
+.trade-message[data-error="true"]{background:#fff0e6;color:#7b3c15}
+.trade .card{margin-bottom:1rem}
+.trade-login{max-width:28rem}
+.trade-context,.trade-inline,.trade-actions{display:flex;flex-wrap:wrap;align-items:end;gap:.75rem}
+.trade-context p,.trade-inline p{margin-bottom:0}
+.trade-context label,.trade-inline label{flex:1;min-width:140px}
+.trade-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:.75rem;margin-top:1rem}
+.trade-form .trade-actions,.trade-form .trade-wide{grid-column:1/-1}
+.trade-nav{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+.trade-nav button{white-space:normal}
+.trade-nav button[aria-current="page"]{background:#254f3e;color:white}
+.trade-list{display:grid;gap:.65rem;margin-top:.8rem}
+.trade-record{padding:.85rem;border:1px solid #d9e4dc;border-radius:.6rem}
+.trade-record h3,.trade-record p{margin:.25rem 0}
+.trade-badge{font-weight:700;color:#365b46}
+.trade-flags{color:#7b3c15}
+.trade-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.6rem;margin-bottom:1rem}
+.trade-kpis div{padding:.8rem;background:#edf5ef;border-radius:.6rem}
+.trade-kpis strong,.trade-kpis small{display:block}
+.trade-scroll{overflow-x:auto}
+.trade table{width:100%;border-collapse:collapse;font-size:.9rem}
+.trade th,.trade td{padding:.5rem;border-bottom:1px solid #e3eae5;text-align:left}
+.trade-map{min-height:330px;background:#eef3ed}
+.trade-chart{max-width:420px;width:100%;height:auto;border-bottom:1px solid #d9e4dc}
+.trade #tradeDialog img{max-width:100%;max-height:60vh}
+.trade #tradeDialog{max-height:88vh;width:min(700px,94vw)}
+.trade summary{cursor:pointer;padding:.55rem 0;font-weight:600}
+@media(max-width:520px){.trade .card{padding:1rem}.trade-inline button,.trade-actions button{min-height:42px}.trade-map{min-height:270px}}
+@media print{body.trade .trade-header,.trade-title,#tradeMessage,.trade-context,.trade-nav,.trade-no-print{display:none!important}.trade .card{break-inside:avoid;box-shadow:none}.trade-main{max-width:none!important}}

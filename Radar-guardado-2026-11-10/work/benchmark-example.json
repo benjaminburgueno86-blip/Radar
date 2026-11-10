@@ -1,0 +1,632 @@
+{
+  "version": 2,
+  "project": {
+    "name": "La compra del barrio · caso ilustrativo",
+    "sector": "Almacén de alimentos y reposición cotidiana",
+    "audience": "Vecinos que quieren resolver una compra pequeña sin recorrer un catálogo extenso",
+    "zone": "Montevideo; referencias de cadenas con presencia en la ciudad, sin equivalencia exacta por barrio",
+    "difference": "Lista corta de reposición, pedido por mensaje y retiro coordinado; hipótesis a validar"
+  },
+  "competitors": [
+    {
+      "id": "c1",
+      "name": "Kinko",
+      "website": "https://kinko.com.uy/",
+      "social": "https://instagram.com/kinkouruguay/",
+      "localReason": "Cadena de conveniencia presente en Montevideo; referencia de compra cotidiana. Confirmar sucursal y radio concreto antes de la entrega."
+    },
+    {
+      "id": "c2",
+      "name": "Tienda Inglesa",
+      "website": "https://www.tiendainglesa.com.uy/supermercado/",
+      "social": "https://instagram.com/tiendainglesa/",
+      "localReason": "Referencia de supermercado con presencia en Montevideo. Compite por compras de alimentos; tiene escala distinta al almacén propuesto."
+    },
+    {
+      "id": "c3",
+      "name": "Ta-Ta",
+      "website": "https://www.tata.com.uy/",
+      "social": "https://www.instagram.com/tatasupermercadosuy/",
+      "localReason": "Referencia de supermercado local y compra digital. La comparación es de comunicación pública en la ciudad, no de una misma manzana."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "K1",
+      "competitorId": "c1",
+      "category": "propuesta",
+      "url": "https://kinko.com.uy/nosotros",
+      "title": "Kinko · propuesta institucional",
+      "observation": "La presentación institucional enfatiza simplificar la compra cotidiana, cercanía y horario prolongado.",
+      "date": "2026-11-06",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "K2",
+      "competitorId": "c1",
+      "category": "confianza",
+      "url": "https://kinko.com.uy/",
+      "title": "Kinko · navegación y contacto",
+      "observation": "La portada enlaza locales y contacto; publica un teléfono para mensajes y un correo.",
+      "date": "2026-11-06",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "T1",
+      "competitorId": "c2",
+      "category": "promociones",
+      "url": "https://www.tiendainglesa.com.uy/supermercado/",
+      "title": "Tienda Inglesa · navegación de portada",
+      "observation": "La portada muestra accesos a ofertas, campañas, canastas y Tienda Express Web. No se verificaron sus condiciones ni cobertura.",
+      "date": "2026-11-06",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "A1",
+      "competitorId": "c3",
+      "category": "surtido",
+      "url": "https://www.tata.com.uy/",
+      "title": "Ta-Ta · categorías y compra digital",
+      "observation": "La portada presenta categorías, promociones, consultas de pedidos, contacto y enlaces de ayuda.",
+      "date": "2026-11-06",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "R_c1",
+      "competitorId": "c1",
+      "category": "redes",
+      "url": "https://instagram.com/kinkouruguay/",
+      "title": "Redes de Kinko · acceso pendiente",
+      "observation": "No fue posible leer de forma fiable las publicaciones durante esta investigación. No se evalúan frecuencia, alcance ni atención. El perfil debe confirmarse antes de analizarlo.",
+      "date": "2026-11-06",
+      "status": "no_verificado",
+      "channel": "redes",
+      "reviewed": false
+    },
+    {
+      "id": "R_c2",
+      "competitorId": "c2",
+      "category": "redes",
+      "url": "https://instagram.com/tiendainglesa/",
+      "title": "Redes de Tienda Inglesa · acceso pendiente",
+      "observation": "No fue posible leer de forma fiable las publicaciones durante esta investigación. No se evalúan frecuencia, alcance ni atención. El perfil debe confirmarse antes de analizarlo.",
+      "date": "2026-11-06",
+      "status": "no_verificado",
+      "channel": "redes",
+      "reviewed": false
+    },
+    {
+      "id": "R_c3",
+      "competitorId": "c3",
+      "category": "redes",
+      "url": "https://www.instagram.com/tatasupermercadosuy/",
+      "title": "Redes de Ta-Ta · acceso pendiente",
+      "observation": "No fue posible leer de forma fiable las publicaciones durante esta investigación. No se evalúan frecuencia, alcance ni atención. El perfil debe confirmarse antes de analizarlo.",
+      "date": "2026-11-06",
+      "status": "no_verificado",
+      "channel": "redes",
+      "reviewed": false
+    },
+    {
+      "id": "Dato_ejemplo_0",
+      "competitorId": "c1",
+      "category": "confianza",
+      "url": "https://kinko.com.uy/locales",
+      "title": "Dirección publicada",
+      "observation": "Pocitos: Kinko publica locales en Benito Blanco 1182, Gabriel Pereira 3169 y Av. Gral. Rivera 2715.",
+      "date": "2026-11-09",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "Dato_ejemplo_1",
+      "competitorId": "c2",
+      "category": "compra",
+      "url": "https://callback.tiendainglesa.com.uy/supermercado/landing/envios/38",
+      "title": "Costo y condiciones de entrega",
+      "observation": "Montevideo: la tabla publica $260 de envío tanto para Centro-Este como para Oeste. La página anuncia envío gratuito para compras que superen $6.000.",
+      "date": "2026-11-09",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "Dato_ejemplo_2",
+      "competitorId": "c2",
+      "category": "compra",
+      "url": "https://callback.tiendainglesa.com.uy/supermercado/landing/envios/38",
+      "title": "Horario publicado",
+      "observation": "Montevideo: la tabla publica entrega de lunes a domingo, de 09:00 a 22:00 para Centro-Este y de 11:00 a 17:00 para Oeste.",
+      "date": "2026-11-09",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "Dato_ejemplo_3",
+      "competitorId": "c2",
+      "category": "compra",
+      "url": "https://callback.tiendainglesa.com.uy/supermercado/landing/envios/38",
+      "title": "Modalidad de retiro",
+      "observation": "Tienda Inglesa publica retiro sin costo por Click&Go con aviso cuando el pedido está listo.",
+      "date": "2026-11-09",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "Dato_ejemplo_4",
+      "competitorId": "c3",
+      "category": "compra",
+      "url": "https://www.tata.com.uy/lp/preguntas-frecuentes",
+      "title": "Costo y condiciones de entrega",
+      "observation": "Montevideo, Las Piedras, La Paz y Ciudad de la Costa: Ta-Ta publica $239 de envío y bonifica el envío para compras superiores a $3.490. Los cupos dependen de disponibilidad.",
+      "date": "2026-11-09",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    },
+    {
+      "id": "Dato_ejemplo_5",
+      "competitorId": "c3",
+      "category": "compra",
+      "url": "https://www.tata.com.uy/lp/preguntas-frecuentes",
+      "title": "Modalidad de retiro",
+      "observation": "Ta-Ta publica retiro gratuito en sucursales habilitadas. En mostrador se identifica el pedido con su número o con el documento del comprador.",
+      "date": "2026-11-09",
+      "status": "observado",
+      "channel": "web",
+      "reviewed": false
+    }
+  ],
+  "report": {
+    "version": 1,
+    "scopeId": "benchmark-f5acc1de",
+    "generatedAt": "2026-11-06",
+    "tool": "ChatGPT/Codex · investigación con navegación web",
+    "method": "navegacion_web",
+    "summary": "La muestra permite distinguir conveniencia cotidiana en Kinko y navegación de campañas y categorías en los dos supermercados. No permite afirmar quién vende más ni quién atiende mejor. Para el almacén propuesto conviene probar una compra pequeña y guiada, sin competir con promesas de precios mínimos. El análisis de redes está pendiente: este caso es parcial y no representa una entrega completa.",
+    "comparisons": [
+      {
+        "competitorId": "c1",
+        "dimensions": [
+          {
+            "key": "propuesta",
+            "status": "observado",
+            "text": "Promesa de cercanía y flexibilidad para la compra diaria.",
+            "evidenceIds": [
+              "K1"
+            ]
+          },
+          {
+            "key": "surtido",
+            "status": "no_verificado",
+            "text": "No se obtuvo evidencia suficiente de esta dimensión.",
+            "evidenceIds": []
+          },
+          {
+            "key": "promociones",
+            "status": "no_verificado",
+            "text": "No se obtuvo evidencia suficiente de esta dimensión.",
+            "evidenceIds": []
+          },
+          {
+            "key": "compra",
+            "status": "no_verificado",
+            "text": "No se verificó el proceso de pedido o pago.",
+            "evidenceIds": []
+          },
+          {
+            "key": "redes",
+            "status": "no_verificado",
+            "text": "No se pudieron revisar publicaciones.",
+            "evidenceIds": []
+          },
+          {
+            "key": "confianza",
+            "status": "observado",
+            "text": "Localizador y vías de contacto publicadas.",
+            "evidenceIds": [
+              "K2"
+            ]
+          }
+        ],
+        "strengths": [
+          {
+            "text": "La propuesta institucional tiene un foco cotidiano reconocible.",
+            "kind": "observado",
+            "evidenceIds": [
+              "K1"
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "text": "La promesa general deja espacio para probar una especialidad de compra guiada; no demuestra que Kinko carezca de ella.",
+            "kind": "inferencia",
+            "evidenceIds": [
+              "K1"
+            ]
+          }
+        ]
+      },
+      {
+        "competitorId": "c2",
+        "dimensions": [
+          {
+            "key": "propuesta",
+            "status": "no_verificado",
+            "text": "No se obtuvo evidencia suficiente de esta dimensión.",
+            "evidenceIds": []
+          },
+          {
+            "key": "surtido",
+            "status": "no_verificado",
+            "text": "No se verificó el catálogo completo.",
+            "evidenceIds": []
+          },
+          {
+            "key": "promociones",
+            "status": "observado",
+            "text": "Portada con accesos a campañas comerciales.",
+            "evidenceIds": [
+              "T1"
+            ]
+          },
+          {
+            "key": "compra",
+            "status": "observado",
+            "text": "Acceso visible a Tienda Express Web; proceso no probado.",
+            "evidenceIds": [
+              "T1"
+            ]
+          },
+          {
+            "key": "redes",
+            "status": "no_verificado",
+            "text": "No se pudieron revisar publicaciones.",
+            "evidenceIds": []
+          },
+          {
+            "key": "confianza",
+            "status": "no_verificado",
+            "text": "No se auditaron condiciones de compra.",
+            "evidenceIds": []
+          }
+        ],
+        "strengths": [
+          {
+            "text": "Las campañas tienen accesos visibles desde la portada.",
+            "kind": "observado",
+            "evidenceIds": [
+              "T1"
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "text": "Una propuesta más acotada podría ayudar a quien busca una compra pequeña; la complejidad percibida debe probarse con usuarios.",
+            "kind": "inferencia",
+            "evidenceIds": [
+              "T1"
+            ]
+          }
+        ]
+      },
+      {
+        "competitorId": "c3",
+        "dimensions": [
+          {
+            "key": "propuesta",
+            "status": "no_verificado",
+            "text": "No se obtuvo evidencia suficiente de esta dimensión.",
+            "evidenceIds": []
+          },
+          {
+            "key": "surtido",
+            "status": "observado",
+            "text": "Navegación por categorías visible.",
+            "evidenceIds": [
+              "A1"
+            ]
+          },
+          {
+            "key": "promociones",
+            "status": "observado",
+            "text": "Accesos a beneficios y promociones.",
+            "evidenceIds": [
+              "A1"
+            ]
+          },
+          {
+            "key": "compra",
+            "status": "observado",
+            "text": "Enlaces a pedidos y compra digital.",
+            "evidenceIds": [
+              "A1"
+            ]
+          },
+          {
+            "key": "redes",
+            "status": "no_verificado",
+            "text": "No se pudieron revisar publicaciones.",
+            "evidenceIds": []
+          },
+          {
+            "key": "confianza",
+            "status": "observado",
+            "text": "Vías de contacto y ayuda enlazadas.",
+            "evidenceIds": [
+              "A1"
+            ]
+          }
+        ],
+        "strengths": [
+          {
+            "text": "Reúne categorías y ayuda para la compra digital.",
+            "kind": "observado",
+            "evidenceIds": [
+              "A1"
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "text": "Para una compra puntual, una selección breve podría diferenciarse de la navegación por categorías; no equivale a una falla del sitio.",
+            "kind": "inferencia",
+            "evidenceIds": [
+              "A1"
+            ]
+          }
+        ]
+      }
+    ],
+    "valueProposition": {
+      "statement": "Tu reposición del barrio, en una lista corta: pedila por mensaje y coordiná el retiro.",
+      "why": "La hipótesis combina la ocasión cotidiana destacada por Kinko con una selección más acotada que los accesos de campañas y categorías observados en los supermercados. No se verificó que esa combinación sea exclusiva.",
+      "validation": "Entrevistar a vecinos y probar una lista de diez productos durante dos semanas. Registrar pedidos, tiempos de preparación y recompra antes de ampliar.",
+      "evidenceIds": [
+        "K1",
+        "T1",
+        "A1"
+      ]
+    },
+    "actions": [
+      {
+        "title": "Diseñar una lista corta de reposición",
+        "detail": "Elegir diez productos a partir de entrevistas y publicar presentación, precio y disponibilidad, con fecha de actualización.",
+        "metric": "Solicitudes por producto, faltantes y margen unitario calculado con costos propios.",
+        "evidenceIds": [
+          "K1",
+          "A1"
+        ]
+      },
+      {
+        "title": "Probar pedido y retiro coordinado",
+        "detail": "Publicar el procedimiento por mensaje y una franja realista de retiro. Medir el proceso antes de prometer rapidez.",
+        "metric": "Pedidos completados, minutos de preparación y pedidos retirados en la franja acordada.",
+        "evidenceIds": [
+          "K1",
+          "T1"
+        ]
+      },
+      {
+        "title": "Documentar una propuesta clara en web y redes",
+        "detail": "Comunicar para quién es la tienda y cómo pedir. Registrar capturas de los perfiles competidores para terminar el benchmarking social.",
+        "metric": "Consultas que entienden la propuesta, pedidos originados por cada canal y evidencia social revisada de los tres.",
+        "evidenceIds": [
+          "K2",
+          "A1"
+        ]
+      }
+    ],
+    "limitations": [
+      "Las redes no pudieron consultarse de forma fiable: faltan observaciones sociales de los tres competidores. No se infiere inactividad.",
+      "Los enlaces de perfiles deben confirmarse; el de Ta-Ta cuenta con referencia institucional histórica, no validación actual del perfil.",
+      "Se comparan cadenas presentes en Montevideo, no tres locales del mismo radio. La tienda y su público son un caso ilustrativo.",
+      "La lectura de las webs no prueba disponibilidad, calidad del servicio, cobertura de entrega, ventas ni precios mínimos.",
+      "Las oportunidades son interpretaciones de IA sujetas a revisión humana. Las fuentes del caso se consultaron el 06/11/2026."
+    ]
+  },
+  "example": false,
+  "reportContext": {
+    "version": 2,
+    "project": {
+      "name": "La compra del barrio · caso ilustrativo",
+      "sector": "Almacén de alimentos y reposición cotidiana",
+      "audience": "Vecinos que quieren resolver una compra pequeña sin recorrer un catálogo extenso",
+      "zone": "Montevideo; referencias de cadenas con presencia en la ciudad, sin equivalencia exacta por barrio",
+      "difference": "Lista corta de reposición, pedido por mensaje y retiro coordinado; hipótesis a validar"
+    },
+    "competitors": [
+      {
+        "id": "c1",
+        "name": "Kinko",
+        "website": "https://kinko.com.uy/",
+        "social": "https://instagram.com/kinkouruguay/",
+        "localReason": "Cadena de conveniencia presente en Montevideo; referencia de compra cotidiana. Confirmar sucursal y radio concreto antes de la entrega."
+      },
+      {
+        "id": "c2",
+        "name": "Tienda Inglesa",
+        "website": "https://www.tiendainglesa.com.uy/supermercado/",
+        "social": "https://instagram.com/tiendainglesa/",
+        "localReason": "Referencia de supermercado con presencia en Montevideo. Compite por compras de alimentos; tiene escala distinta al almacén propuesto."
+      },
+      {
+        "id": "c3",
+        "name": "Ta-Ta",
+        "website": "https://www.tata.com.uy/",
+        "social": "https://www.instagram.com/tatasupermercadosuy/",
+        "localReason": "Referencia de supermercado local y compra digital. La comparación es de comunicación pública en la ciudad, no de una misma manzana."
+      }
+    ],
+    "evidence": [
+      {
+        "id": "K1",
+        "competitorId": "c1",
+        "category": "propuesta",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://kinko.com.uy/nosotros",
+        "date": "2026-11-06",
+        "title": "Kinko · propuesta institucional",
+        "observation": "La presentación institucional enfatiza simplificar la compra cotidiana, cercanía y horario prolongado.",
+        "reviewed": false
+      },
+      {
+        "id": "K2",
+        "competitorId": "c1",
+        "category": "confianza",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://kinko.com.uy/",
+        "date": "2026-11-06",
+        "title": "Kinko · navegación y contacto",
+        "observation": "La portada enlaza locales y contacto; publica un teléfono para mensajes y un correo.",
+        "reviewed": false
+      },
+      {
+        "id": "T1",
+        "competitorId": "c2",
+        "category": "promociones",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://www.tiendainglesa.com.uy/supermercado/",
+        "date": "2026-11-06",
+        "title": "Tienda Inglesa · navegación de portada",
+        "observation": "La portada muestra accesos a ofertas, campañas, canastas y Tienda Express Web. No se verificaron sus condiciones ni cobertura.",
+        "reviewed": false
+      },
+      {
+        "id": "A1",
+        "competitorId": "c3",
+        "category": "surtido",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://www.tata.com.uy/",
+        "date": "2026-11-06",
+        "title": "Ta-Ta · categorías y compra digital",
+        "observation": "La portada presenta categorías, promociones, consultas de pedidos, contacto y enlaces de ayuda.",
+        "reviewed": false
+      },
+      {
+        "id": "R_c1",
+        "competitorId": "c1",
+        "category": "redes",
+        "channel": "redes",
+        "status": "no_verificado",
+        "url": "https://instagram.com/kinkouruguay/",
+        "date": "2026-11-06",
+        "title": "Redes de Kinko · acceso pendiente",
+        "observation": "No fue posible leer de forma fiable las publicaciones durante esta investigación. No se evalúan frecuencia, alcance ni atención. El perfil debe confirmarse antes de analizarlo.",
+        "reviewed": false
+      },
+      {
+        "id": "R_c2",
+        "competitorId": "c2",
+        "category": "redes",
+        "channel": "redes",
+        "status": "no_verificado",
+        "url": "https://instagram.com/tiendainglesa/",
+        "date": "2026-11-06",
+        "title": "Redes de Tienda Inglesa · acceso pendiente",
+        "observation": "No fue posible leer de forma fiable las publicaciones durante esta investigación. No se evalúan frecuencia, alcance ni atención. El perfil debe confirmarse antes de analizarlo.",
+        "reviewed": false
+      },
+      {
+        "id": "R_c3",
+        "competitorId": "c3",
+        "category": "redes",
+        "channel": "redes",
+        "status": "no_verificado",
+        "url": "https://www.instagram.com/tatasupermercadosuy/",
+        "date": "2026-11-06",
+        "title": "Redes de Ta-Ta · acceso pendiente",
+        "observation": "No fue posible leer de forma fiable las publicaciones durante esta investigación. No se evalúan frecuencia, alcance ni atención. El perfil debe confirmarse antes de analizarlo.",
+        "reviewed": false
+      },
+      {
+        "id": "Dato_ejemplo_0",
+        "competitorId": "c1",
+        "category": "confianza",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://kinko.com.uy/locales",
+        "date": "2026-11-09",
+        "title": "Dirección publicada",
+        "observation": "Pocitos: Kinko publica locales en Benito Blanco 1182, Gabriel Pereira 3169 y Av. Gral. Rivera 2715.",
+        "reviewed": false
+      },
+      {
+        "id": "Dato_ejemplo_1",
+        "competitorId": "c2",
+        "category": "compra",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://callback.tiendainglesa.com.uy/supermercado/landing/envios/38",
+        "date": "2026-11-09",
+        "title": "Costo y condiciones de entrega",
+        "observation": "Montevideo: la tabla publica $260 de envío tanto para Centro-Este como para Oeste. La página anuncia envío gratuito para compras que superen $6.000.",
+        "reviewed": false
+      },
+      {
+        "id": "Dato_ejemplo_2",
+        "competitorId": "c2",
+        "category": "compra",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://callback.tiendainglesa.com.uy/supermercado/landing/envios/38",
+        "date": "2026-11-09",
+        "title": "Horario publicado",
+        "observation": "Montevideo: la tabla publica entrega de lunes a domingo, de 09:00 a 22:00 para Centro-Este y de 11:00 a 17:00 para Oeste.",
+        "reviewed": false
+      },
+      {
+        "id": "Dato_ejemplo_3",
+        "competitorId": "c2",
+        "category": "compra",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://callback.tiendainglesa.com.uy/supermercado/landing/envios/38",
+        "date": "2026-11-09",
+        "title": "Modalidad de retiro",
+        "observation": "Tienda Inglesa publica retiro sin costo por Click&Go con aviso cuando el pedido está listo.",
+        "reviewed": false
+      },
+      {
+        "id": "Dato_ejemplo_4",
+        "competitorId": "c3",
+        "category": "compra",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://www.tata.com.uy/lp/preguntas-frecuentes",
+        "date": "2026-11-09",
+        "title": "Costo y condiciones de entrega",
+        "observation": "Montevideo, Las Piedras, La Paz y Ciudad de la Costa: Ta-Ta publica $239 de envío y bonifica el envío para compras superiores a $3.490. Los cupos dependen de disponibilidad.",
+        "reviewed": false
+      },
+      {
+        "id": "Dato_ejemplo_5",
+        "competitorId": "c3",
+        "category": "compra",
+        "channel": "web",
+        "status": "observado",
+        "url": "https://www.tata.com.uy/lp/preguntas-frecuentes",
+        "date": "2026-11-09",
+        "title": "Modalidad de retiro",
+        "observation": "Ta-Ta publica retiro gratuito en sucursales habilitadas. En mostrador se identifica el pedido con su número o con el documento del comprador.",
+        "reviewed": false
+      }
+    ]
+  }
+}

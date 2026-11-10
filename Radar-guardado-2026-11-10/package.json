@@ -1,0 +1,19 @@
+{
+  "name": "gondolupa",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "start": "node work/benchmark-server.cjs",
+    "build": "node work/build-benchmark.cjs",
+    "test": "node work/test-market-intelligence.cjs && node work/test-platform.cjs && node work/test-platform-catalog.cjs && node work/test-trade.cjs",
+    "trade:provision": "node work/trade-provision.cjs"
+  },
+  "dependencies": {
+    "csv-parse": "7.0.3",
+    "read-excel-file": "9.3.14",
+    "web-push": "3.6.7"
+  }
+}
