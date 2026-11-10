@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Radar · Monitor de Competencia</title><link rel="manifest" href="/gondolupa.webmanifest"><meta name="theme-color" content="#173a2e"><meta name="description" content="Compará precios, margen y oportunidades de comercios locales con datos relevados."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>/*CSS*/</style><style>/*LEAFLET_CSS*/</style></head><body>
+<header><a href="#inicio" class="brand" aria-label="Radar, inicio">radar<span>◉</span><small>MONITOR DE COMPETENCIA</small></a><nav aria-label="Secciones"><button data-view="inicio" class="active">01 Nuestra tienda</button><button data-view="competidores">02 Competidores</button><button data-view="informe">03 Informe</button><button data-view="mapa">Mapa ↗</button></nav><button class="quiet" id="helpOpen">Cómo funciona</button></header>
+<main><div id="globalStatus" role="status" class="save-status"></div>
+<section data-panel="inicio"><div class="hero"><div><span class="eyebrow">BENCHMARKING PARA TIENDAS LOCALES</span><h1>Conocé a tu competencia.<br><em>Encontrá tu diferencia.</em></h1><p>Armá tu canasta de apertura, compará precios por sucursal y evaluá qué margen puede sostener tu tienda.</p><div class="hero-actions"><button class="primary" id="showExample">Armar mi canasta ↗</button><button class="text-action" id="startStudy">Definir mi tienda →</button></div><a class="radar-trade-entry quiet" id="tradeHeroEntry" href="/trade"><span><small>PARA EQUIPOS Y EMPRESAS</small><strong>Radar Trade Marketing</strong></span><span aria-hidden="true">↗</span></a><span class="mini">Productos comparables · Precios relevados · Margen estimado</span></div><div class="hero-board"><div class="board-top">DE LA OBSERVACIÓN A LA DECISIÓN <span>↗</span></div><div class="board-comp"><div><b>1</b><span>Armá tu canasta</span></div><div><b>2</b><span>Compará sucursales</span></div><div><b>3</b><span>Revisá tu margen</span></div></div><div class="board-result"><span>LA PREGUNTA QUE IMPORTA</span><strong>¿Con qué productos<br>empezamos?</strong><p>Precios observados, costos propios y una decisión para probar.</p></div></div></div><div class="process-strip"><div><b>01</b><strong>Definí nuestra tienda</strong><span>Público, oferta y zona.</span></div><div><b>02</b><strong>Compará una canasta</strong><span>Mismas presentaciones y cantidades.</span></div><div><b>03</b><strong>Elegí qué probar</strong><span>Precios, surtido y sucursales para visitar.</span></div></div>
+<div class="section-heading" id="projectStart"><div><span class="eyebrow">EL PUNTO DE PARTIDA</span><h2>¿Para qué tienda vamos a comparar?</h2></div><span class="source-chip">Tus respuestas, guardadas en este navegador</span></div><div class="profile-layout"><article class="card"><form id="projectForm"><div class="formgrid"><label>Nombre de nuestra tienda<input name="name" required maxlength="200" placeholder="Puede ser un nombre provisional"></label><label>Rubro y oferta principal<input name="sector" required maxlength="200" placeholder="Ej.: almacén de alimentos y compras de reposición"></label><label>¿A quién queremos venderle?<input name="audience" required maxlength="200" placeholder="Un público concreto y su necesidad"></label><label>Zona en la que competimos<input name="zone" required maxlength="200" placeholder="Barrio, ciudad o radio de atención"></label><label class="wide">¿Qué nos gustaría hacer diferente?<textarea name="difference" maxlength="1500" placeholder="Una hipótesis inicial; el informe la va a contrastar con lo observado."></textarea></label></div><button class="primary">Guardar y elegir competidores →</button></form></article><aside class="note-card"><span class="eyebrow">PARA TU APERTURA</span><h3>Decidí qué vale la pena probar.</h3><p>Elegí una zona y compará una canasta de productos equivalentes. Agregá tus costos para ver dónde tenés margen para competir.</p><div class="mini-rule">El mapa ubica sucursales para visitar. La demanda y los costos de apertura se validan aparte.</div></aside></div></section>
+<section data-panel="competidores" hidden><div class="section-heading"><div><span class="eyebrow">PASO 02 / UN ALCANCE CLARO</span><h1>Tres negocios. Una comparación justa.</h1><p>Elegí negocios que atiendan una necesidad parecida en tu zona. Una cadena puede servir como referencia; explicá por qué compite con tu tienda.</p></div></div><form id="competitorForm"><div id="competitorFields" class="competitor-grid"></div><div class="form-actions"><button type="button" class="quiet" data-view="inicio">← Nuestra tienda</button><button class="primary">Guardar y ver informe →</button></div></form></section>
+
+<section data-panel="informe" hidden>
+<section class="card market-intelligence" aria-labelledby="marketHeading">
+  <div class="market-heading"><div><span class="eyebrow">GONDOLUPA · INTELIGENCIA COMPETITIVA</span><h2 id="marketHeading">Informe de mercado</h2></div><div><button id="marketPdf" class="quiet" type="button">Guardar en PDF</button></div></div>
+  <div class="market-opening-controls">
+    <label>Barrio<select id="marketZone"><option value="">Todos los barrios</option></select></label>
+    <label>Referencia<select id="marketReference"><option value="catalog">Catálogos de Radar</option><option value="sipc">Histórico del MEF</option></select></label>
+    <button class="quiet" type="button" id="marketShowMap">Ver sucursales en el mapa</button>
+  </div>
+  <p id="marketContext" class="mini"></p>
+  <section id="marketActions" aria-label="Tres acciones para tu tienda"></section>
+  <section class="market-basket" aria-labelledby="marketBasketTitle">
+    <h3 id="marketBasketTitle">Mi canasta de apertura</h3>
+    <p class="mini">Compará la misma cantidad y presentación en cada sucursal.</p>
+    <form id="marketBasketForm" class="market-opening-controls">
+      <label>Producto<select id="marketBasketProduct"><option value="">Elegí un producto</option></select></label>
+      <button type="submit" class="primary" id="marketBasketAdd">Agregar</button>
+      <button type="button" class="quiet" id="marketBasketSuggested">Sugerir productos comparables</button>
+    </form>
+    <div id="marketBasket" aria-live="polite"></div>
+    <details id="marketMarginSettings" class="market-detail" hidden><summary>Ver si puedo igualar precios</summary>
+      <p class="mini">Ingresá tu costo unitario por producto. El margen bruto excluye los gastos fijos.</p>
+      <label class="market-target">Margen bruto objetivo (%) <input id="marketBasketTarget" type="number" min="0" max="99" step="1" value="25"></label>
+      <div id="marketBasketMargins"></div>
+    </details>
+  </section>
+  <details class="market-detail" id="marketFull"><summary>Ver precios, gráficos y fuentes</summary>
+  <p id="marketOrigin" class="mini">Fuente · Copia de Gondolupa incluida en Radar</p>
+  <div class="market-controls">
+    <label>Tipo de comercio<select id="marketType"><option value="minimercado">Minimercado</option><option value="almacén">Almacén</option><option value="supermercado">Supermercado</option><option value="conveniencia">Tienda de conveniencia</option></select></label>
+    <label>Categoría<select id="marketCategory"><option value="">Todas</option></select></label>
+    <label>Orden<select id="marketSort"><option value="score">Puntuación</option><option value="gap">Mayor brecha</option><option value="min">Precio mínimo</option></select></label>
+  </div>
+  <div id="marketBranches" class="market-controls"></div>
+  <button id="marketEdit" class="text-action" type="button">Cargar mis costos y precios</button> <button id="marketRefresh" class="text-action" type="button">Actualizar precios</button><p class="mini" id="marketUpdateStatus" role="status"></p><details class="market-detail"><summary>Estado de las fuentes</summary><ul id="marketSources"></ul></details>
+  <div id="marketReport"></div>
+  </details>
+</section>
+<details class="card field-benchmark market-detail" id="marketManual"><summary>Agregar mi relevamiento de precios</summary>
+  <div class="section-heading"><div><span class="eyebrow">PRECIO, STOCK Y EXPERIENCIA REAL</span><h2 id="fieldHeading">Tu posición frente a la competencia</h2></div></div>
+    <div class="field-results" aria-live="polite">
+      <div id="fieldResults"></div>
+      <div id="fieldDecisions"></div>
+    </div>
+  <details>
+    <summary>Ver ejemplo con precios reales</summary>
+    <div id="fieldReference"></div>
+  </details>
+  <details id="fieldEdit">
+    <summary>Cargar o editar mi comparación</summary>
+    <form id="fieldForm">
+      <p class="mini">Usá la misma fecha, canal, marca, tamaño y cantidades. Anotá sucursal y ticket o enlace por rival. Cargá precios y costos con el mismo criterio de impuestos. Dejá en blanco lo que no mediste. El margen bruto excluye gastos fijos.</p>
+      <div id="fieldSettings" class="field-inputs"></div>
+      <div id="fieldItems"></div>
+      <button class="quiet" type="button" id="fieldAdd">Agregar producto</button>
+      <details>
+        <summary>Registrar pruebas de compra o atención</summary>
+        <p class="mini">Repetí el mismo pedido con cada comercio, en la misma franja. Indicá cuántos terminaron con pedido confirmado. Si vas a registrar minutos, promediá solo los confirmados. Los resultados describen la muestra de pruebas.</p>
+        <div id="fieldTrialFields"></div>
+      </details>
+      <div class="form-actions"><button class="primary" type="submit">Guardar y comparar</button></div>
+    </form>
+  </details>
+</details>
+</section>
+<section data-panel="mapa" hidden><div class="section-heading"><div><span class="eyebrow">COMPLEMENTO TERRITORIAL</span><h1>Ubicá las referencias. Elegí con criterio.</h1><p>Elegí un barrio para ver qué sucursales tienen precios comparables y cuáles podés visitar primero.</p></div></div><div class="filters"><label>Barrio<select id="mapZone"><option value="">Todos los barrios</option></select></label><label>Cadena<select id="mapChain"><option value="">Todas las cadenas del directorio</option></select></label><label>Suavizado<select id="mapRadius"><option value="400">400 m</option><option value="600">600 m</option><option value="1000" selected>1 km</option></select></label><label class="check"><input id="showHeat" type="checkbox" checked>Calor</label><label class="check"><input id="showPoints" type="checkbox" checked>Locales</label></div><div class="mapcard"><div id="map"></div><p id="mapBaseStatus" role="status" class="caption"></p></div><p class="caption">El color indica concentración de locales del directorio. La demanda requiere datos adicionales.</p><div id="marketMapSummary"></div></section>
+
+<div class="project-toolbar"><span id="storageLabel">Guardado en este navegador</span><button class="text-action" id="exportProject">Guardar copia del proyecto ↓</button><label class="file-button text-action">Abrir proyecto<input type="file" id="projectFile" accept=".json,application/json"></label></div><footer>Radar · Proyecto académico: Monitor de Competencia (Benchmarking) · Precios comparables y decisiones para nuestra tienda. · <a href="/trade" id="tradeEntry">Radar Trade Marketing</a></footer></main>
+
+<dialog id="marketProductDialog" class="market-dialog">
+  <div class="market-heading"><h2 id="marketProductTitle"></h2><button class="quiet" id="marketProductClose" type="button">Cerrar</button></div>
+  <div id="marketProductFacts"></div>
+  <h3>Evolución de precios</h3><label>Rango<select id="marketHistoryRange"><option value="7">7 días</option><option value="30" selected>30 días</option><option value="90">90 días</option><option value="">Personalizado</option></select></label>
+  <div class="market-controls" id="marketHistoryCustom" hidden><label>Desde<input id="marketHistoryFrom" type="date"></label><label>Hasta<input id="marketHistoryTo" type="date"></label></div>
+  <div id="marketHistorySeries" class="market-opportunities"></div>
+</dialog>
+<dialog id="helpDialog"><div class="cardhead"><h2>Cómo usar Radar</h2><button class="quiet" id="helpClose">Cerrar</button></div><ol><li>En Informe, elegí un barrio o consultá los catálogos de Radar.</li><li>Agregá productos a tu canasta y compará los totales completos por sucursal.</li><li>Ingresá tus costos para saber qué precios podés igualar con tu margen objetivo.</li><li>Revisá las acciones y usá el mapa para planear visitas.</li></ol><p>Tu proyecto se guarda en este navegador. Usá «Guardar copia del proyecto» para llevarlo a otro navegador.</p></dialog><div id="toast" role="status"></div>
+<script>/*DATA*/</script><script>/*CORE*/</script><script>/*LEAFLET_JS*/</script><script>/*MAP*/</script><script>/*APP*/</script></body></html>

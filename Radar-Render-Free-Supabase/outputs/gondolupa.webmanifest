@@ -1,0 +1,11 @@
+{
+  "id": "/",
+  "name": "Gondolupa",
+  "short_name": "Gondolupa",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f3f5ef",
+  "theme_color": "#173a2e",
+  "icons": [{"src":"/gondolupa-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}

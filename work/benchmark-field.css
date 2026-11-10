@@ -1,0 +1,27 @@
+.field-benchmark { margin-bottom: 2rem; }
+.field-benchmark .section-heading { margin-top: 0; }
+.field-benchmark details { margin-top: 1rem; }
+.field-benchmark h4 { margin-bottom: .45rem; }
+.field-inputs, .field-scorecards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 185px), 1fr)); gap: .8rem; }
+.field-inputs label { min-width: 0; }
+.field-inputs label input { width: 100%; }
+.field-benchmark fieldset { border: 1px solid #d6e1d5; border-radius: 12px; margin: .85rem 0; min-width: 0; padding: .7rem 1rem; }
+.field-benchmark legend { font-weight: 700; }
+.field-score { display: grid; gap: .25rem; background: #edf3e9; border-radius: 12px; padding: .8rem; overflow-wrap: anywhere; }
+.field-score strong { font-size: 1.2rem; }
+.field-score small, .field-table small { display: block; font-size: .78rem; color: #506552; }
+.field-table td, .field-table th { padding: .5rem; }
+.field-table td { white-space: nowrap; }
+.field-results { border-top: 1px solid #d6e1d5; padding-top: 1rem; margin-top: 1rem; }
+.field-benchmark .form-actions { flex-wrap: wrap; }
+.compact-report-summary { margin: .65rem 0 1rem; max-width: 72ch; }
+.compact-report-title { margin: 1.25rem 0 .55rem; }
+.compact-report-details { margin: 1rem 0; }
+.compact-report-details > summary { cursor: pointer; font-weight: 700; }
+.compact-report-details .section-heading { margin-top: 1rem; }
+.compact-report-empty { margin: 0 0 .6rem; }
+.compact-actions .action-card { padding: 1rem; }
+.compact-actions .action-card p { margin: .45rem 0; }
+.compact-weaknesses { padding-left: 1.2rem; }
+.compact-weaknesses li + li { margin-top: .35rem; }
+.field-benchmark .field-results { border: 0; padding: 0; margin: .55rem 0; }

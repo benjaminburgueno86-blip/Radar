@@ -1,0 +1,11 @@
+.radar-facts { margin: 0 0 2rem; }
+.radar-facts > .section-heading { margin-top: 0; gap: 1rem; flex-wrap: wrap; }
+.radar-fact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.radar-fact-card { overflow-wrap: anywhere; }
+.radar-fact-card ul, .radar-fact-decisions ul { list-style: none; padding: 0; margin: 0; }
+.radar-fact-card li, .radar-fact-decisions li { padding: .65rem 0; }
+.radar-fact-card li + li, .radar-fact-decisions li + li { border-top: 1px solid #dce2d5; }
+.radar-fact-card small, .radar-fact-decisions small { color: #526354; }
+.radar-fact-decisions { margin-top: 1rem; }
+.radar-fact-decisions p { margin: .3rem 0; }
+@media (max-width: 760px) { .radar-fact-grid { grid-template-columns: 1fr; } }

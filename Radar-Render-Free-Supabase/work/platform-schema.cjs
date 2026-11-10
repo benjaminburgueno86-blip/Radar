@@ -1,0 +1,22 @@
+const migrations = [[
+  "CREATE TABLE users(id TEXT PRIMARY KEY,email TEXT NOT NULL UNIQUE,password TEXT NOT NULL,verified INTEGER NOT NULL DEFAULT 0,profile TEXT NOT NULL DEFAULT '{}');",
+  'CREATE TABLE sessions(token TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,expires INTEGER NOT NULL);',
+  'CREATE TABLE account_links(token TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,kind TEXT NOT NULL,expires INTEGER NOT NULL);',
+  'CREATE TABLE limits(key TEXT PRIMARY KEY,count INTEGER NOT NULL,reset INTEGER NOT NULL);',
+  'CREATE TABLE prices(id INTEGER PRIMARY KEY,product TEXT NOT NULL,store TEXT NOT NULL,scope TEXT NOT NULL,branch TEXT NOT NULL,name TEXT NOT NULL,brand TEXT NOT NULL,category TEXT NOT NULL,price REAL NOT NULL CHECK(price>0),currency TEXT NOT NULL,available INTEGER,url TEXT NOT NULL,checked TEXT NOT NULL,promotion TEXT NOT NULL,source TEXT NOT NULL,fingerprint TEXT NOT NULL UNIQUE);',
+  'CREATE INDEX price_series ON prices(product,store,scope,branch,currency,promotion,checked);',
+  'CREATE INDEX prices_time ON prices(checked);',
+  'CREATE TABLE source_runs(id INTEGER PRIMARY KEY,source TEXT NOT NULL,started TEXT NOT NULL,status TEXT NOT NULL,count INTEGER NOT NULL,error TEXT NOT NULL);',
+  'CREATE INDEX source_run_time ON source_runs(source,started);',
+  'CREATE TABLE follows(user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,preferences TEXT NOT NULL);',
+  'CREATE TABLE changes(id INTEGER PRIMARY KEY,signature TEXT NOT NULL UNIQUE,event TEXT NOT NULL,detected INTEGER NOT NULL);',
+  'CREATE TABLE inbox(user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,change_id INTEGER NOT NULL REFERENCES changes(id),seen INTEGER,pushed INTEGER,PRIMARY KEY(user_id,change_id));',
+  'CREATE INDEX inbox_pending ON inbox(user_id,pushed,change_id);',
+  'CREATE TABLE subscriptions(endpoint TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,subscription TEXT NOT NULL);',
+  'CREATE TABLE saved_reports(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,name TEXT NOT NULL,payload TEXT NOT NULL,created TEXT NOT NULL);',
+  'CREATE INDEX report_owner ON saved_reports(user_id,created);',
+].join('\n'), 'CREATE TABLE projects(user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, payload TEXT NOT NULL);',
+  'ALTER TABLE users ADD COLUMN local_only INTEGER NOT NULL DEFAULT 0;', require('./trade-schema.cjs'),
+  'CREATE TABLE trade_signups (token TEXT PRIMARY KEY, email TEXT NOT NULL, company TEXT NOT NULL, name TEXT NOT NULL, expires INTEGER NOT NULL); CREATE INDEX trade_signup_email ON trade_signups(email);',
+  'CREATE TABLE platform_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);'];
+module.exports=migrations;

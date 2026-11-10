@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: gondolupa
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev --ignore-scripts && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 24.22.1
+      - key: DATABASE_URL
+        sync: false
+      - key: PRICE_RECENT_HOURS
+        value: 24
+      - key: PRICE_STALE_HOURS
+        value: 48
+      - key: PRICE_FEEDS_JSON
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: GONDOLUPA_ADMIN_EMAIL
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false

@@ -1,0 +1,26 @@
+{
+  "name": "gondolupa",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "start": "node work/benchmark-server.cjs",
+    "build": "node work/build-benchmark.cjs",
+    "test": "node work/test-market-intelligence.cjs && node work/test-platform.cjs && node work/test-platform-catalog.cjs && node work/test-trade.cjs",
+    "test:postgres": "node work/test-postgres.cjs",
+    "db:migrate-sqlite": "node work/migrate-sqlite-to-postgres.cjs",
+    "trade:provision": "node work/trade-provision.cjs"
+  },
+  "dependencies": {
+    "csv-parse": "7.0.3",
+    "pg": "8.23.1",
+    "read-excel-file": "9.3.14",
+    "web-push": "3.6.7"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.16",
+    "@electric-sql/pglite-socket": "0.2.19"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-26T10:47:00.581Z",
+  "campaigns": [
+    {
+      "id": "eldorado-midinero",
+      "storeId": "eldorado",
+      "store": "El Dorado",
+      "title": "Lunes que rinden · 20% con Midinero",
+      "percent": 20,
+      "cap": 500,
+      "benefit": "midinero",
+      "validFrom": "2026-09-07",
+      "validUntil": "2026-11-30",
+      "weekdays": [
+        1
+      ],
+      "verified": true,
+      "checkedAt": "2026-10-26T10:46:59.107Z",
+      "url": "https://www.midinero.com.uy/bases-y-condiciones-beneficio-lunes-que-rinden-supermercados-el-dorado/",
+      "conditions": "Tarjeta Midinero, Midinero Más o Cintepa. Lunes, una compra por usuario y por día. Tope $500 por compra. Almacén, lácteos, elaboración propia de panadería y rotisería y bebidas sin alcohol. Locales físicos y web. No acumulable con otras promociones."
+    },
+    {
+      "id": "eldorado-anda",
+      "storeId": "eldorado",
+      "store": "El Dorado",
+      "title": "10% con crédito ANDA · compra presencial",
+      "percent": 10,
+      "benefit": "anda",
+      "validUntil": "2026-12-31",
+      "weekdays": null,
+      "verified": true,
+      "checkedAt": "2026-10-26T10:47:00.556Z",
+      "url": "https://anda.com.uy/dias-de-descuentos/el-dorado-montevideo/",
+      "conditions": "Tarjeta de crédito ANDA. Compras presenciales en Montevideo, en los artículos indicados por las bases. No acumulable. El texto consultado no precisa los días: confirmalos antes de comprar."
+    }
+  ],
+  "errors": []
+}

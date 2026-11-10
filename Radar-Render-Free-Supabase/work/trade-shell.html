@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Radar Trade Marketing</title>
+  <style>/*CSS*/</style>
+</head>
+<body class="trade">
+  <header class="trade-header">
+    <a class="brand" href="/trade">radar<span>◉</span><small>TRADE MARKETING</small></a>
+    <a class="quiet" href="/">Volver a Radar</a>
+  </header>
+  <main class="trade-main">
+    <div class="trade-title">
+      <div><span class="eyebrow">ESPACIO EMPRESARIAL</span><h1>Radar Trade Marketing</h1>
+      <p id="tradeSubtitle">Relevá precios en góndola y convertí los registros validados en decisiones comerciales.</p></div>
+    </div>
+    <p id="tradeMessage" class="trade-message" role="status" aria-live="polite"></p>
+    <section class="card trade-login" id="tradeAccess" hidden>
+      <h2 id="tradeAccessTitle">Acceso empresarial</h2>
+      <p id="tradeAccessCopy">Ingresá con la cuenta que autorizó tu empresa.</p>
+      <form id="tradeLogin">
+        <label>Correo <input type="email" name="email" autocomplete="username" maxlength="254" required></label>
+        <label>Contraseña <input type="password" name="password" autocomplete="current-password" minlength="12" maxlength="256" required></label>
+        <button class="primary" id="tradeLoginButton">Ingresar</button>
+      </form>
+      <details id="tradeSignup">
+        <summary>Crear mi espacio empresarial</summary>
+        <p>Creá el espacio privado de tu empresa. Después podés invitar a tu equipo desde Radar.</p>
+        <form id="tradeSignupForm">
+          <label>Empresa <input name="company" autocomplete="organization" maxlength="150" required></label>
+          <label>Tu nombre <input name="name" autocomplete="name" maxlength="120" required></label>
+          <label>Correo <input type="email" name="email" autocomplete="email" maxlength="254" required></label>
+          <button class="primary">Continuar</button>
+        </form>
+      </details>
+      <a id="tradeBackToLogin" href="/trade" hidden>Volver al acceso empresarial</a>
+    </section>
+    <section id="tradeWorkspace" hidden>
+      <div class="trade-context card">
+        <label>Empresa <select id="tradeCompany"></select></label>
+        <p id="tradeRole"></p>
+        <button class="quiet" id="tradeLogout">Cerrar sesión</button>
+      </div>
+      <nav class="trade-nav" aria-label="Módulos empresariales">
+        <button type="button" data-trade-view="captura">Relevamiento</button>
+        <button type="button" data-trade-view="revision">Registros y revisión</button>
+        <button type="button" data-trade-view="analisis">Análisis y mapa</button>
+        <button type="button" data-trade-view="alertas">Alertas</button>
+        <button type="button" data-trade-view="equipo" id="tradeTeamTab">Equipo</button>
+      </nav>
+      <section data-trade-panel="captura" hidden>
+        <article class="card">
+          <h2>1. Seleccioná o iniciá una visita</h2>
+          <label>Visita activa <select id="tradeVisit"><option value="">Seleccioná una visita</option></select></label>
+          <details id="tradeNewVisit">
+            <summary>Nueva visita</summary>
+            <form id="tradeVisitForm" class="trade-form">
+              <label>Comercio <input name="store" required list="tradeStores"></label>
+              <datalist id="tradeStores"><option>Disco</option><option>Devoto</option><option>Ta-Ta</option><option>Frog</option><option>Tienda Inglesa</option><option>El Dorado</option></datalist>
+              <label>Sucursal <input name="branch" required></label>
+              <label>Dirección <input name="address" required></label>
+              <label>Zona o barrio <input name="zone"></label>
+              <label>Fecha y hora de Uruguay <input name="checked" type="datetime-local" required></label>
+              <label>Latitud <input name="lat" type="number" step="any" min="-90" max="90"></label>
+              <label>Longitud <input name="lng" type="number" step="any" min="-180" max="180"></label>
+              <div class="trade-actions"><button type="button" class="quiet" id="tradeLocate">Usar ubicación del dispositivo</button><button class="primary">Guardar visita</button></div>
+            </form>
+          </details>
+        </article>
+        <article class="card">
+          <h2>2. Registrá los productos</h2>
+          <p>La visita sigue seleccionada mientras cargás productos.</p>
+          <form id="tradeSearch" class="trade-inline">
+            <label>Buscar producto registrado <input name="q" type="search" placeholder="Nombre, marca o código de barras"></label>
+            <button class="quiet">Buscar</button>
+          </form>
+          <div id="tradeSearchResults" class="trade-list"></div>
+          <form id="tradePriceForm" class="trade-form">
+            <label>Producto <input name="name" required></label>
+            <label>Marca <input name="brand"></label>
+            <label>Categoría <input name="category" required></label>
+            <label>Presentación <input name="presentation" placeholder="Ej. 500 ml" required></label>
+            <label>Código de barras <input name="code" inputmode="numeric" maxlength="14"></label>
+            <label>Precio de góndola (UYU) <input name="price" inputmode="decimal" required></label>
+            <label>Precio promocional (UYU) <input name="promo" inputmode="decimal"></label>
+            <label>Condiciones de la promoción <input name="conditions" placeholder="Ej. con tarjeta o segunda unidad"></label>
+            <label>Foto del producto y la etiqueta <input name="photo" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label>
+            <label>Observaciones <textarea name="notes" rows="2"></textarea></label>
+            <div class="trade-actions"><button class="primary">Guardar producto pendiente</button></div>
+          </form>
+        </article>
+        <article class="card">
+          <h2>Importar una planilla</h2>
+          <p>Usá tu propio Excel (.xlsx) o CSV. Radar sugiere las columnas y vos elegís qué importar. Hasta 500 filas por importación.</p>
+          <form id="tradeImport" class="trade-inline">
+            <label>Planilla <input type="file" name="file" accept=".csv,.xlsx" required></label>
+            <button class="primary">Revisar planilla</button>
+          </form>
+        </article>
+      </section>
+      <section data-trade-panel="revision" hidden>
+        <article class="card">
+          <div class="trade-inline"><div><h2>Registros y revisión</h2><p>Los registros validados alimentan el análisis. Las correcciones vuelven a revisión.</p></div>
+            <label>Estado <select id="tradeStatus"><option value="">Todos</option><option>pendiente</option><option>validado</option><option>rechazado</option></select></label>
+            <button class="quiet" type="button" data-export="records">Exportar CSV</button>
+          </div>
+          <div id="tradeRecords" class="trade-list"></div>
+        </article>
+      </section>
+      <section data-trade-panel="analisis" hidden>
+        <article class="card trade-no-print">
+          <h2>Filtrar análisis</h2>
+          <form id="tradeFilters" class="trade-form">
+            <label>Producto <input name="name"></label><label>Categoría <input name="category"></label><label>Marca <input name="brand"></label>
+            <label>Comercio <input name="store"></label><label>Sucursal <input name="branch"></label>
+            <label>Desde <input name="from" type="date"></label><label>Hasta <input name="to" type="date"></label>
+            <div class="trade-actions"><button class="primary">Aplicar filtros</button><button class="quiet" type="button" data-export="recommendations">Exportar recomendaciones</button><button class="quiet" id="tradePrint" type="button">Imprimir / Guardar PDF</button></div>
+          </form>
+        </article>
+        <div id="tradeAnalysis"></div>
+        <article class="card trade-no-print">
+          <h2>Mapa de relevamientos</h2>
+          <div class="trade-inline"><label>Capa <select id="tradeMapMode"><option value="visitas">Concentración de sucursales</option><option value="precios">Precios presenciales por producto</option></select></label>
+          <label>Comparación para el mapa <select id="tradeMapProduct"></select></label></div>
+          <p id="tradeMapHint"></p><div id="tradeMap" class="trade-map" aria-label="Mapa de sucursales relevadas"></div><p id="mapBaseStatus" class="caption"></p><div id="tradeMapPlaces"></div>
+        </article>
+        <article class="card trade-no-print" data-trade-reviewer>
+          <h2>Registrar un precio propio</h2>
+          <p>Para recomendar una acción, Radar compara el precio propio y el relevado en el mismo canal y día.</p>
+          <form id="tradeOwn" class="trade-form">
+            <label>Producto relevado <select name="product" required></select></label>
+            <label>Canal <select name="scope"><option value="presencial">Presencial</option><option value="digital">Digital</option></select></label>
+            <label>Fecha y hora de Uruguay <input name="checked" type="datetime-local" required></label>
+            <label>Precio propio (UYU) <input name="price" inputmode="decimal" required></label>
+            <div class="trade-actions"><button class="primary">Guardar precio propio</button></div>
+          </form>
+        </article>
+      </section>
+      <section data-trade-panel="alertas" hidden>
+        <article class="card">
+          <h2>Alertas de la empresa</h2>
+          <p id="tradePushHint"></p><button id="tradePush" class="quiet" type="button">Activar avisos en este navegador</button>
+          <div id="tradeAlerts" class="trade-list"></div>
+        </article>
+        <article class="card" data-trade-reviewer>
+          <h2>Reglas de alerta</h2><p>Dejá un filtro en blanco para incluir todos sus valores.</p>
+          <form id="tradeRule" class="trade-form">
+            <label>Variación mínima (%) <input name="threshold" type="number" min="0.01" max="1000" step="0.01" required></label>
+            <label>Producto <select name="product"></select></label><label>Categoría <input name="category"></label><label>Comercio <input name="store"></label>
+            <label>Sucursal <input name="branch"></label><label>Zona <input name="zone"></label>
+            <div class="trade-actions"><button class="primary">Guardar regla</button></div>
+          </form>
+          <div id="tradeRules" class="trade-list"></div>
+        </article>
+      </section>
+      <section data-trade-panel="equipo" hidden>
+        <article class="card">
+          <h2>Equipo autorizado</h2><div id="tradeMembers" class="trade-list"></div>
+          <form id="tradeInvite" class="trade-form">
+            <label>Nombre <input name="name" required></label><label>Correo <input name="email" type="email" required></label>
+            <label>Rol <select name="role"><option value="relevador">Relevador</option><option value="supervisor">Supervisor</option><option value="admin">Administrador</option></select></label>
+            <div class="trade-actions"><button class="primary">Crear invitación</button></div>
+          </form>
+          <label id="tradeInviteOutput" hidden>Enlace privado de un uso <input id="tradeInviteLink" readonly></label>
+        </article>
+      </section>
+    </section>
+  </main>
+  <dialog id="tradeDialog"><form method="dialog"><button class="quiet">Cerrar</button></form><div id="tradeDialogBody"></div></dialog>
+  <script>/*LEAFLET*/</script>
+  <script>/*MAP*/</script>
+  <script>/*APP*/</script>
+</body>
+</html>
