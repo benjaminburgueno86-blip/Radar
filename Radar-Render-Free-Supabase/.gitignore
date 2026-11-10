@@ -1,0 +1,10 @@
+.env
+.env.*
+node_modules/
+work/runtime-platform/
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+*.pem
+*.cer

@@ -11,6 +11,8 @@ services:
         value: 24.22.1
       - key: DATABASE_URL
         sync: false
+      - key: DATABASE_SCHEMA
+        value: public
       - key: PRICE_RECENT_HOURS
         value: 24
       - key: PRICE_STALE_HOURS
