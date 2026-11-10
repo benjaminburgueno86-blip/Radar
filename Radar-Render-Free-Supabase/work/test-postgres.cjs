@@ -10,6 +10,7 @@ const {migrateSQLite}=require('./migrate-sqlite-to-postgres.cjs');
 const {start}=require('./benchmark-server.cjs');
 const {once}=require('node:events');
 const http=require('node:http');
+const {connectionSettings,safeDatabaseError}=require('./platform-diagnostics.cjs');
 
 async function isolated(test){
   const pg=await PGlite.create();
@@ -17,7 +18,7 @@ async function isolated(test){
   try{
     await server.start();
     const databaseUrl='postgresql://postgres@'+server.getServerConn()+'/postgres';
-    await test({databaseUrl,allowInsecureLocal:true});
+    await test({databaseUrl,allowInsecureLocal:true},pg);
   }finally{await server.stop();await pg.close();}
 }
 
@@ -91,11 +92,83 @@ async function hostedHttp(database){
   }finally{app.closeAllConnections();await new Promise(resolve=>app.close(resolve));}
 }
 
+function diagnostics(){
+  const secret='private-password-marker';
+  const valid='postgresql://postgres.project:'+secret+'@aws-0-region.pooler.supabase.com:5432/postgres';
+  for(const [value,code] of [
+    ['', 'DB_URL_MISSING'],['DATABASE_URL='+valid,'DB_URL_ASSIGNMENT'],['"'+valid+'"','DB_URL_QUOTES'],
+    ['https://host.invalid/'+secret,'DB_URL_PROTOCOL'],['postgresql://wrong host/'+secret,'DB_URL_WHITESPACE'],
+    ['postgresql://postgres:'+secret+'@host.invalid:wrong/postgres','DB_URL_FORMAT'],
+    [valid+'#'+secret,'DB_URL_FRAGMENT'],[valid.replace(secret,'bad%escape'),'DB_URL_ENCODING'],
+    [valid.replace(secret,'[YOUR-PASSWORD]'),'DB_URL_PLACEHOLDER'],[valid.replace(':5432',':6543'),'DB_POOLER_PORT'],
+    [valid.replace('postgres.project','postgres'),'DB_POOLER_USER'],[valid+'?sslmode=disable','DB_SSL_MODE'],
+  ]){
+    assert.throws(()=>connectionSettings(value),error=>{
+      assert.equal(error.code,code);
+      assert(!String(error.stack).includes(secret));
+      return true;
+    });
+  }
+  for(const mode of ['require','verify-ca','verify-full']){
+    const settings=connectionSettings('  '+valid+'?sslmode='+mode+'  ',{ca:'certificate'});
+    assert.equal(settings.ssl.rejectUnauthorized,true);
+    assert.equal(settings.ssl.ca,'certificate');
+    assert(!settings.connectionString.includes('sslmode'));
+  }
+  for(const [code,expected] of [['28P01','DB_AUTH'],['UNABLE_TO_VERIFY_LEAF_SIGNATURE','DB_SSL'],
+    ['ENOTFOUND','DB_DNS'],['ECONNREFUSED','DB_CONNECTION'],['ETIMEDOUT','DB_TIMEOUT'],['42501','DB_PERMISSION']]){
+    const safe=safeDatabaseError(Object.assign(Error(valid),{code}));
+    assert.equal(safe.code,expected);
+    assert(!String(safe.stack).includes(secret));
+  }
+}
+
+async function publicSchema(target,engine){
+  const sql=fs.readFileSync(path.join(__dirname,'platform-postgres.sql'),'utf8');
+  await engine.exec('SET search_path TO public; CREATE ROLE anon; CREATE ROLE authenticated; '+sql);
+  await engine.query("INSERT INTO public.users(id,email,password) VALUES('existing','existing@fixture.invalid','preserved-hash')");
+  await engine.query(`INSERT INTO public.prices(product,store,scope,branch,name,brand,category,price,currency,available,url,checked,promotion,source,fingerprint)
+    VALUES('07622300841461','fixture','online','Sucursal de prueba','Oreo 50 g','Oreo','Galletas',123.45,'UYU',1,
+      'https://fixture.invalid/producto','2026-11-10T10:00:00.000Z','','prueba','public-price')`);
+  await engine.exec('ALTER TABLE public.users DROP COLUMN local_only; ALTER TABLE public.users DROP COLUMN trade_only');
+  await engine.exec('CREATE TABLE public.schema_migrations(version INTEGER PRIMARY KEY); INSERT INTO public.schema_migrations VALUES(99); GRANT SELECT ON public.users TO anon,authenticated');
+  let app=await openPlatform({...target,schema:'public'});
+  try{
+    assert.equal((await app.db.prepare('SELECT password FROM users WHERE id=?').get('existing')).password,'preserved-hash');
+    assert.equal((await app.db.prepare('SELECT price FROM prices WHERE fingerprint=?').get('public-price')).price,123.45);
+    assert.equal((await app.db.prepare("SELECT to_regclass('radar.users') table_name").get()).table_name,null);
+    assert.equal((await app.db.prepare('SELECT version FROM schema_migrations').get()).version,99);
+    assert.equal((await app.db.prepare("SELECT has_table_privilege('anon','public.users','SELECT') allowed").get()).allowed,false);
+    assert.equal((await app.db.prepare("SELECT has_table_privilege('authenticated','public.users','SELECT') allowed").get()).allowed,false);
+  }finally{await app.close();}
+  app=await openPlatform(target);
+  try{assert.equal((await app.db.prepare('SELECT count(*) n FROM users').get()).n,1);}
+  finally{await app.close();}
+  await engine.exec('CREATE SCHEMA radar; CREATE TABLE radar.users(id TEXT PRIMARY KEY)');
+  await assert.rejects(openPlatform(target),error=>error.code==='DB_SCHEMA_AMBIGUOUS');
+  app=await openPlatform({...target,schema:'public'});
+  try{assert.equal((await app.db.prepare('SELECT count(*) n FROM users').get()).n,1);}
+  finally{await app.close();}
+  await engine.exec('DROP INDEX public.trade_confirmed_at; CREATE INDEX trade_confirmed_at ON public.trade_prices(company,product,place,checked)');
+  await assert.rejects(openPlatform({...target,schema:'public'}),error=>error.code==='DB_SCHEMA_INDEX');
+  assert.equal((await engine.query('SELECT count(*)::integer n FROM public.users')).rows[0].n,1);
+}
+
+async function incompatibleSchema(target,engine){
+  await engine.exec('CREATE TABLE public.users(id TEXT PRIMARY KEY,email TEXT NOT NULL)');
+  await assert.rejects(openPlatform({...target,schema:'public'}),error=>error.code==='DB_SCHEMA_COLUMN');
+  const result=await engine.query("SELECT to_regclass('public.prices') prices,to_regclass('radar.users') other_users");
+  assert.equal(result.rows[0].prices,null);assert.equal(result.rows[0].other_users,null);
+}
+
 (async()=>{
+  diagnostics();
   await assert.rejects(setup({env:{},hosted:true,seedData:false}),/DATABASE_URL/);
   await isolated(require('./test-platform.cjs'));
   await isolated(require('./test-trade.cjs'));
   await isolated(migration);
   await isolated(hostedHttp);
+  await isolated(publicSchema);
+  await isolated(incompatibleSchema);
   console.log('OK: integración con motor PostgreSQL vía TCP, migración SQLite idempotente, archivos binarios, secuencias y rollback.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

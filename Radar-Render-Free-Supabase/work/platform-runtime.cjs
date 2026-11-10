@@ -7,6 +7,7 @@ const {platformApi}=require('./platform-api.cjs');
 const {emailTransport}=require('./platform-accounts.cjs');
 const {configurePush,pushDispatcher}=require('./platform-push.cjs');
 const {tradeApi}=require('./trade-api.cjs');
+const {diagnostic}=require('./platform-diagnostics.cjs');
 
 const defaultPath=path.join(__dirname,'runtime-platform','gondolupa.sqlite');
 
@@ -22,12 +23,15 @@ function seed(platform) {
 }
 
 function databaseOptions(env=process.env,hosted=false){
-  if(env.DATABASE_URL){
-    const ca=env.DATABASE_SSL_CA?.replace(/\\n/g,'\n')||
-      (env.DATABASE_SSL_CA_FILE?fs.readFileSync(env.DATABASE_SSL_CA_FILE,'utf8'):undefined);
-    return {databaseUrl:env.DATABASE_URL,ca};
+  if(env.DATABASE_URL!==undefined){
+    let ca=env.DATABASE_SSL_CA?.replace(/\\n/g,'\n');
+    if(!ca&&env.DATABASE_SSL_CA_FILE){
+      try{ca=fs.readFileSync(env.DATABASE_SSL_CA_FILE,'utf8');}
+      catch{throw diagnostic('DB_SSL_CA_FILE','No se pudo leer DATABASE_SSL_CA_FILE. Revisá que el archivo secreto esté cargado en Render.');}
+    }
+    return {databaseUrl:env.DATABASE_URL,ca,schema:env.DATABASE_SCHEMA};
   }
-  if(hosted||env.RENDER==='true')throw Error('Configurá DATABASE_URL con la conexión PostgreSQL de Supabase.');
+  if(hosted||env.RENDER==='true')throw diagnostic('DB_URL_MISSING','Configurá DATABASE_URL con la conexión PostgreSQL de Supabase en Environment de Render.');
   return env.GONDOLUPA_DB||defaultPath;
 }
 

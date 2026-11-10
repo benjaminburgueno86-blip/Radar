@@ -116,7 +116,7 @@ module.exports={start,analyze,extractText,parseReport};if(require.main===module)
  process.once('exit',local.stopEngine);
  for(const signal of ['SIGINT','SIGTERM'])process.once(signal,()=>{local.stopEngine();server.close();});
  if(!process.argv.includes('--open'))server.on('error',error=>{
-   console.error('No se pudo iniciar Radar. '+(error.code?'Código '+error.code:error.message));
+   console.error('No se pudo iniciar Radar. '+(error.safeDatabase?error.code+' '+error.message:error.code?'Código '+error.code:error.message));
    process.exitCode=1;
  });
  if(process.argv.includes('--open')&&process.platform==='win32'){

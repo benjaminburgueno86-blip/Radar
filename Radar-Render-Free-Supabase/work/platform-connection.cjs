@@ -1,6 +1,8 @@
 const {AsyncLocalStorage}=require('node:async_hooks');
 const fs=require('node:fs');
 const path=require('node:path');
+const {connectionSettings,safeDatabaseError}=require('./platform-diagnostics.cjs');
+const {initializeSchema}=require('./platform-postgres-schema.cjs');
 
 const advisoryKey=1462851975;
 
@@ -73,30 +75,29 @@ function sqlite(file) {
   return {db,transaction,close:()=>serial(()=>connection.close())};
 }
 
-async function postgres({databaseUrl,ca,allowInsecureLocal=false}) {
+async function postgres({databaseUrl,ca,allowInsecureLocal=false,schema}) {
   const {Pool,types}=require('pg');
-  let url;
-  try{url=new URL(databaseUrl);}catch{throw Error('DATABASE_URL debe ser una URL PostgreSQL válida.');}
-  if(!['postgres:','postgresql:'].includes(url.protocol)||!url.hostname)throw Error('DATABASE_URL debe ser una URL PostgreSQL válida.');
-  const local=allowInsecureLocal&&['127.0.0.1','localhost','[::1]'].includes(url.hostname);
-  if(url.searchParams.has('sslmode')&&url.searchParams.get('sslmode')!=='verify-full'&&!local)
-    throw Error('Usá DATABASE_URL sin sslmode o con sslmode=verify-full.');
-  for(const key of [...url.searchParams.keys()])url.searchParams.delete(key);
-  const pool=new Pool({connectionString:url.href,ssl:local?false:{rejectUnauthorized:true,...(ca?{ca}:{} )},
+  const settings=connectionSettings(databaseUrl,{ca,allowInsecureLocal});
+  const pool=new Pool({connectionString:settings.connectionString,ssl:settings.ssl,
     max:4,connectionTimeoutMillis:10000,idleTimeoutMillis:15000,statement_timeout:45000,
     types:{getTypeParser:(oid,format)=>oid===20&&format!=='binary'?value=>{
       const number=Number(value);
       if(!Number.isSafeInteger(number))throw Error('Entero de PostgreSQL fuera del rango seguro.');
       return number;
     }:types.getTypeParser(oid,format)}});
-  pool.on('error',error=>console.error('Radar: conexión PostgreSQL interrumpida',error.code||error.name));
-  const scope=new AsyncLocalStorage(),configured=new WeakSet();
+  pool.on('error',error=>{
+    const safe=safeDatabaseError(error);
+    console.error('Radar: '+safe.code+' '+safe.message);
+  });
+  const scope=new AsyncLocalStorage(),configured=new WeakMap();
+  let selectedSchema='pg_catalog';
   async function withClient(action){
-    const client=await pool.connect();
+    let client;
+    try{client=await pool.connect();}catch(error){throw safeDatabaseError(error);}
     try{
-      if(!configured.has(client)){
-        await client.query('SET search_path TO radar');
-        configured.add(client);
+      if(configured.get(client)!==selectedSchema){
+        await client.query("SELECT pg_catalog.set_config('search_path',$1,false)",['"'+selectedSchema+'"']);
+        configured.set(client,selectedSchema);
       }
       return await action(client);
     }finally{client.release();}
@@ -121,15 +122,15 @@ async function postgres({databaseUrl,ca,allowInsecureLocal=false}) {
     });
   }
   try{
-    await transaction(async()=>{
-      await db.exec('CREATE SCHEMA IF NOT EXISTS radar; REVOKE ALL ON SCHEMA radar FROM PUBLIC');
-      await db.exec('CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY)');
-      if(!await db.prepare('SELECT 1 FROM schema_migrations WHERE version=1').get()){
-        await db.exec(fs.readFileSync(path.join(__dirname,'platform-postgres.sql'),'utf8'));
-        await db.prepare('INSERT INTO schema_migrations VALUES(1)').run();
-      }
-    });
-  }catch(error){await pool.end();throw error;}
+    const initialized=await transaction(()=>initializeSchema(db,{schema,setSchema:async name=>{
+      selectedSchema=name;
+      await db.prepare("SELECT pg_catalog.set_config('search_path',?,false)").get('"'+name+'"');
+      configured.set(scope.getStore().client,name);
+    }}));
+    console.info('Radar: PostgreSQL inicializado en '+initialized.schema+'. '+
+      (initialized.adopted?'Tablas existentes verificadas.':'Tablas creadas.')+
+      (settings.pooler?' Session Pooler de Supabase.':''));
+  }catch(error){await pool.end().catch(()=>{});throw safeDatabaseError(error);}
   return {db,transaction,close:()=>pool.end()};
 }
 
