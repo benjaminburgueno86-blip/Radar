@@ -1,3 +1,5 @@
+const {sslSettings}=require('./platform-tls.cjs');
+
 function diagnostic(code,message){
   return Object.assign(new Error(message),{code,safeDatabase:true});
 }
@@ -49,20 +51,46 @@ function connectionSettings(databaseUrl,{allowInsecureLocal=false,ca}={}){
   // node-postgres replaces an explicit SSL object if SSL parameters remain in the URI.
   // Apply all accepted modes with certificate and hostname verification enabled.
   url.search='';
-  return {connectionString:url.href,ssl:local?false:{rejectUnauthorized:true,...(ca?{ca}:{})},pooler};
+  return {connectionString:url.href,ssl:local?false:sslSettings(ca),pooler};
 }
 
 function safeDatabaseError(error){
-  if(error?.safeDatabase)return error;
-  const errors=[error,error?.cause,...(Array.isArray(error?.errors)?error.errors:[])].filter(Boolean);
-  const codes=new Set(errors.map(item=>item.code));
+  // Reinspect legacy DB_SSL wrappers: their cause may still contain Node's code.
+  // Other already-sanitized diagnostics remain unchanged on repeated handling.
+  if(error?.safeDatabase&&error.code!=='DB_SSL')return error;
+  const errors=[],pending=[error],seen=new Set();
+  while(pending.length&&errors.length<32){
+    const item=pending.shift();
+    if(!item||seen.has(item))continue;
+    seen.add(item);errors.push(item);
+    pending.push(item.cause,...(Array.isArray(item.errors)?item.errors:[]));
+  }
+  const codes=new Set(errors.flatMap(item=>[item.code,item.originalCode]));
   const messages=errors.map(item=>String(item.message||'')).join(' ');
   const any=(...values)=>values.some(value=>codes.has(value));
   if(any('28P01','28000')||/password authentication failed|tenant or user not found|SASL.*password/i.test(messages))
-    return diagnostic('DB_AUTH','PostgreSQL rechazó las credenciales. Revisá la contraseña de la base y el usuario completo del Session pooler.');
-  if(any('ERR_TLS_CERT_ALTNAME_INVALID','CERT_HAS_EXPIRED','DEPTH_ZERO_SELF_SIGNED_CERT','SELF_SIGNED_CERT_IN_CHAIN','UNABLE_TO_VERIFY_LEAF_SIGNATURE','UNABLE_TO_GET_ISSUER_CERT_LOCALLY')||
-    [...codes].some(code=>/^ERR_(?:TLS|SSL|OSSL_PEM|OSSL_X509)/.test(code))||/certificate|TLS|SSL/i.test(messages))
-    return diagnostic('DB_SSL','Falló la verificación SSL. Revisá el host y el certificado CA de Supabase en DATABASE_SSL_CA o DATABASE_SSL_CA_FILE.');
+    return diagnostic('DB_AUTH','PostgreSQL rechazó las credenciales. Revisá la contraseña de la base y el usuario completo del Session pooler.'+(any('28P01','28000')?' SQLSTATE '+(codes.has('28P01')?'28P01':'28000')+'.':''));
+  if(/server does not support SSL|SSL is not supported/i.test(messages))
+    return diagnostic('DB_SSL_UNSUPPORTED','El servidor no admite SSL. Revisá que DATABASE_URL apunte al PostgreSQL Session pooler de Supabase, puerto 5432.');
+  const certificateErrors=[
+    ['DB_SSL_HOSTNAME',['ERR_TLS_CERT_ALTNAME_INVALID'],'El certificado no corresponde al nombre del servidor. Copiá el host exacto de Connect → Session pooler; no uses una IP ni otro alias.'],
+    ['DB_SSL_EXPIRED',['CERT_HAS_EXPIRED'],'El certificado del servidor o su cadena está vencido. Revisá la hora del servidor y el certificado de Supabase.'],
+    ['DB_SSL_NOT_YET_VALID',['CERT_NOT_YET_VALID'],'El certificado todavía no es válido. Revisá la hora del servidor y el certificado de Supabase.'],
+    ['DB_SSL_CA_UNTRUSTED',['DEPTH_ZERO_SELF_SIGNED_CERT','SELF_SIGNED_CERT_IN_CHAIN','UNABLE_TO_VERIFY_LEAF_SIGNATURE','UNABLE_TO_GET_ISSUER_CERT_LOCALLY','UNABLE_TO_GET_ISSUER_CERT','CERT_UNTRUSTED'],'No se pudo verificar la cadena de confianza. Descargá la CA desde Database Settings → SSL Configuration de Supabase y configurá DATABASE_SSL_CA o DATABASE_SSL_CA_FILE.'],
+    ['DB_SSL_CERT_INVALID',['CERT_REVOKED','INVALID_CA','INVALID_PURPOSE','PATH_LENGTH_EXCEEDED','CERT_SIGNATURE_FAILURE'],'El certificado o su cadena no son válidos para esta conexión. Revisá la CA y el estado del certificado con Supabase.'],
+  ];
+  for(const [code,originals,message] of certificateErrors){
+    const original=originals.find(value=>codes.has(value));
+    // The server logs code + message, so put the original TLS code in the
+    // sanitized message too. Never attach the raw error (it can contain secrets).
+    if(original)return Object.assign(diagnostic(code,'DB_SSL ['+original+'] '+message),{originalCode:original});
+  }
+  if(
+    codes.has('DB_SSL')||[...codes].some(code=>/^ERR_(?:TLS|SSL|OSSL_PEM|OSSL_X509)/.test(code))||/certificate|TLS|SSL/i.test(messages))
+    {
+      const original=[...codes].find(code=>/^ERR_(?:TLS|SSL|OSSL_PEM|OSSL_X509)_[A-Z0-9_]{1,80}$/.test(code));
+      return Object.assign(diagnostic('DB_SSL_HANDSHAKE','DB_SSL ['+(original||'ORIGINAL_CODE_UNAVAILABLE')+'] Falló la negociación TLS con PostgreSQL. Revisá el certificado, el host y la compatibilidad TLS del servidor.'+(!original?' Código original de Node.js no disponible en el error recibido.':'')),original?{originalCode:original}:{});
+    }
   if(any('ENOTFOUND','EAI_AGAIN'))return diagnostic('DB_DNS','No se pudo resolver el host PostgreSQL. Revisá la dirección del Session pooler.');
   if(any('ETIMEDOUT','ENETUNREACH','EHOSTUNREACH')||/connection timeout|timeout exceeded|Connection terminated due to connection timeout/i.test(messages))
     return diagnostic('DB_TIMEOUT','No se pudo alcanzar PostgreSQL a tiempo. Revisá el estado del proyecto, las restricciones de red y el Session pooler IPv4.');
@@ -76,4 +104,3 @@ function safeDatabaseError(error){
 }
 
 module.exports={diagnostic,connectionSettings,safeDatabaseError};
-
