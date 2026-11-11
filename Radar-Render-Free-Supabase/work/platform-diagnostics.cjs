@@ -76,3 +76,4 @@ function safeDatabaseError(error){
 }
 
 module.exports={diagnostic,connectionSettings,safeDatabaseError};
+
