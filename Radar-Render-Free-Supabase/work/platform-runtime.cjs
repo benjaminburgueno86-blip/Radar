@@ -70,3 +70,4 @@ async function setup({env=process.env,origin,hosted=false,database,
 }
 
 module.exports={setup,seed,databaseOptions,defaultPath};
+
